@@ -1,0 +1,10 @@
+run this in the ios folder:
+rm -rf "${HOME}/Library/Caches/CocoaPods"
+rm -Rf Pods; pod install
+
+
+pod cache clean --all
+
+
+
+rm -rf ios/Podfile.lock ios/Pods

@@ -1,0 +1,29 @@
+PODS:
+  - Flutter (1.0.0)
+  - survey_monkey (0.0.1):
+    - Flutter
+  - surveymonkey-ios-sdk (2.0.5)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - survey_monkey (from `.symlinks/plugins/survey_monkey/ios`)
+  - surveymonkey-ios-sdk (~> 2.0)
+
+SPEC REPOS:
+  trunk:
+    - surveymonkey-ios-sdk
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  survey_monkey:
+    :path: ".symlinks/plugins/survey_monkey/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  survey_monkey: 49be5bb025e0e573b887ddeb6351a65ac854d4c7
+  surveymonkey-ios-sdk: ba8f45026837e58344f3d2c445045fdfe46287a1
+
+PODFILE CHECKSUM: 90669b32867e58af94a67e619fdc71da0a915217
+
+COCOAPODS: 1.8.4
