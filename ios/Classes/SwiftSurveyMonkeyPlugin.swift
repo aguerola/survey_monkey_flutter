@@ -11,7 +11,7 @@ public class SwiftSurveyMonkeyPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     if(call.method == "startSMFeedback"){
-            var v: SMFeedbackViewController ;
+          //  var v: SMFeedbackViewController ;
         //SurveyMonkeyiOSSDK()
         /*let vc = SurveyViewController()
         vc.surveyHash = "self.surveyId" //set dynamically
