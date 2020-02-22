@@ -2,35 +2,48 @@ import Flutter
 import UIKit
 //import SurveyMonkeyiOSSDK
 
-public class SwiftSurveyMonkeyPlugin: UIViewController, FlutterPlugin {
-    
+public class SwiftSurveyMonkeyPlugin: NSObject, FlutterPlugin, SMFeedbackDelegate {
+    var uiViewController: UIViewController?
+    init(uiViewController: UIViewController?) {
+        self.uiViewController = uiViewController
+    }
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "survey_monkey", binaryMessenger: registrar.messenger())
-    let instance = SwiftSurveyMonkeyPlugin()
+    
+    let uiViewController: UIViewController? =
+    (UIApplication.shared.delegate?.window??.rootViewController);
+    let instance = SwiftSurveyMonkeyPlugin(uiViewController: uiViewController)
     
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
-
+    var result: FlutterResult?
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    print("lalala")
     if(call.method == "startSMFeedback"){
-        let v: SMFeedbackViewController = SMFeedbackViewController(survey: "Q5DD86R");
-        //v.delegate = self
-        //v.scheduleIntercept(from: self, withAppTitle: "Lo que sea")
-        v.present(from: self, animated: true) {
-            print("lalala 2")
-            result(true)
-        }
-        /*let vc = SurveyViewController()
-        vc.surveyHash = "self.surveyId" //set dynamically
-        vc.player = self //set the object needed to access swift func
-        self.view.addSubview(vc.view)*/
+        self.result = result
+        let collector = (call.arguments as? Dictionary<String, AnyObject>)?.self["collector"]
+        let v: SMFeedbackViewController = SMFeedbackViewController(survey: collector as? String );
+        v.delegate = self
+
+        v.present(from: uiViewController, animated: true, completion: nil)
+
     }
     
   }
     
-    
     public func respondentDidEndSurvey(_ respondent: SMRespondent!, error: Error!) {
-      
+        if(respondent != nil) {
+            let questionResponse = respondent.questionResponses[0]
+            print(questionResponse)
+           result?.self(true)
+        }else{
+            let smError = error as? SMError
+            let code = smError?.code ?? -100
+            if(code == ERROR_CODE_RESPONSE_LIMIT_HIT || code == ERROR_CODE_RETRIEVING_RESPONSE) {
+                result?.self(true)
+            } else{
+                result?.self(false)
+            }
+            print(error ?? "")
+        }
     }
 }
